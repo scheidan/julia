@@ -126,6 +126,14 @@ function \{TA<:Number,Tb<:Number}(A::Union(Bidiagonal{TA},Triangular{TA}), b::Ab
     TAb = typeof(one(TA)/one(Tb))
     naivesub!(A, b, similar(b, TAb))
 end
+# function \{TA<:Number,Tb<:Number}(A::Bidiagonal{TA}, b::AbstractVector{Tb})
+#     TAb = typeof(one(TA)/one(Tb))
+#     naivesub!(A, b, similar(b, TAb))
+# end
+# function \{TA<:Number,Tb<:Number}(A::Triangular{TA}, b::AbstractVector{Tb})
+#     TAb = typeof(one(TA)/one(Tb))
+#     naivesub!(A, b, similar(b, TAb))
+# end
 function \{TA<:Number,TB<:Number}(A::Union(Bidiagonal{TA},Triangular{TA}), B::AbstractMatrix{TB})
     TAB = typeof(one(TA)/one(TB))
     hcat([naivesub!(A, B[:,i], similar(B[:,i], TAB)) for i=1:size(B,2)]...)

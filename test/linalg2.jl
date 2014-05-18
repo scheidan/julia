@@ -220,7 +220,7 @@ for relty in (Float32, Float64, BigFloat), elty in (relty, Complex{relty})
     end
 
     for M in (triu(A), tril(A))
-        TM = Triangular(M)
+        TM = Triangular(M, istril(M) ? :L : :U)
         #Multiplication
         @test_approx_eq A*M A*TM
         @test_approx_eq M*A TM*A
@@ -424,11 +424,11 @@ for newtype in [Tridiagonal, Matrix]
 end
 
 A=Tridiagonal([1:N-1]*0.0, [1:N]*1.0, [1:N-1]*0.0) #morally Diagonal
-for newtype in [Diagonal, Bidiagonal, SymTridiagonal, Triangular, Matrix]
+for newtype in [Diagonal, Bidiagonal, SymTridiagonal, Matrix]
     @test full(convert(newtype, A)) == full(A)
 end
 
-A=Triangular(full(Diagonal([1:N]*1.0))) #morally Diagonal
+A=Triangular(full(Diagonal([1:N]*1.0)), :L) #morally Diagonal
 for newtype in [Diagonal, Bidiagonal, SymTridiagonal, Triangular, Matrix]
     @test full(convert(newtype, A)) == full(A)
 end
